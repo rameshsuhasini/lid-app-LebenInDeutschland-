@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useMemo, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
 import { useStore } from "@/lib/store";
+import { getT } from "@/lib/i18n";
 import { CATEGORIES } from "@/lib/constants";
 import { calcReadiness } from "@/lib/utils";
 import questions from "@/data/questions.json";
@@ -18,6 +19,7 @@ const allQ = questions as Question[];
 export default function ProgressPage() {
   const { progress, streak, examHistory, bookmarks, resetProgress, preferredLang } = useStore();
   const lang = preferredLang;
+  const t = getT(lang);
 
   const totalAnswered = Object.keys(progress).length;
   const readiness = calcReadiness(progress, allQ.length);
@@ -37,7 +39,7 @@ export default function ProgressPage() {
     };
   }).sort((a, b) => (a.pct ?? 101) - (b.pct ?? 101)), [progress]);
 
-  const radialData = [{ value: readiness, fill: "#B8860B" }];
+  const radialData = [{ value: readiness, fill: "#1D4ED8" }];
 
   const bookmarkedQ = allQ.filter(q => bookmarks.includes(q.id));
 
@@ -51,10 +53,10 @@ export default function ProgressPage() {
 
   return (
     <PageWrapper>
-      <div className="max-w-2xl mx-auto px-4 pt-4">
+      <div className="px-4 sm:px-8 lg:px-16 pt-4">
         <div className="mb-8">
-          <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-1">Progress Dashboard</p>
-          <h1 className="font-syne font-extrabold text-3xl text-text-hi">Your Progress</h1>
+          <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-1">{t.progressLabel}</p>
+          <h1 className="font-syne font-extrabold text-3xl text-text-hi">{t.progressTitle}</h1>
         </div>
 
         {/* Readiness + Stats */}
@@ -68,17 +70,17 @@ export default function ProgressPage() {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-syne font-extrabold text-2xl text-accent">{readiness}%</span>
-                <span className="text-[10px] text-text-faint">ready</span>
+                <span className="text-[10px] text-text-faint">{t.ready}</span>
               </div>
             </div>
-            <div className="flex items-center gap-1 text-xs text-text-lo"><Target size={11} className="text-accent" /> Exam Readiness</div>
+            <div className="flex items-center gap-1 text-xs text-text-lo"><Target size={11} className="text-accent" /> {t.examReadiness}</div>
           </Card>
 
           <div className="grid grid-rows-3 gap-2">
             {[
-              { icon: Flame, val: `${streak}d`, label: "streak", cls: "text-accent" },
-              { icon: CheckCircle2, val: correctCount, label: "correct", cls: "text-c-green" },
-              { icon: XCircle, val: wrongCount, label: "wrong", cls: "text-c-red" },
+              { icon: Flame, val: `${streak}d`, label: t.streakLabel, cls: "text-accent" },
+              { icon: CheckCircle2, val: correctCount, label: t.correctLabel, cls: "text-c-green" },
+              { icon: XCircle, val: wrongCount, label: t.wrongLabel, cls: "text-c-red" },
             ].map(({ icon: Icon, val, label, cls }) => (
               <Card key={label} className="flex items-center gap-3 py-3 px-4">
                 <Icon size={14} className={cls} />
@@ -92,14 +94,14 @@ export default function ProgressPage() {
         </div>
 
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-text-faint">{totalAnswered} of {allQ.length} questions attempted</span>
+          <span className="text-xs text-text-faint">{totalAnswered} {t.questionsAttempted.replace("{total}", String(allQ.length))}</span>
         </div>
         <div className="h-1.5 bg-raised rounded-full overflow-hidden mb-6">
           <motion.div className="h-full bg-accent rounded-full progress-fill" animate={{ width: `${(totalAnswered / allQ.length) * 100}%` }} />
         </div>
 
         {/* Category breakdown */}
-        <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">Topic Breakdown</p>
+        <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">{t.topicBreakdown}</p>
         <div ref={catRef} className="space-y-2 mb-8">
           {catStats.map((c, i) => (
             <motion.div key={c.name} custom={i} initial="initial" animate={catInView ? "animate" : "initial"} variants={item}>
@@ -116,7 +118,7 @@ export default function ProgressPage() {
                 <div className="h-1 bg-raised rounded-full overflow-hidden">
                   <motion.div
                     className="h-full rounded-full"
-                    style={{ background: c.pct === null ? "transparent" : c.pct >= 70 ? "#1D8B3C" : c.pct >= 40 ? "#B8860B" : "#C0392B" }}
+                    style={{ background: c.pct === null ? "transparent" : c.pct >= 70 ? "#1D8B3C" : c.pct >= 40 ? "#1D4ED8" : "#C0392B" }}
                     animate={{ width: catInView && c.pct !== null ? `${c.pct}%` : "0%" }}
                     transition={{ delay: i * 0.04, duration: 0.5 }}
                   />
@@ -129,7 +131,7 @@ export default function ProgressPage() {
         {/* Exam history */}
         {examHistory.length > 0 && (
           <>
-            <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">Exam History</p>
+            <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">{t.examHistory}</p>
             <div className="space-y-2 mb-8">
               {examHistory.slice(0, 5).map((s, i) => (
                 <motion.div key={s.id} custom={i} initial="initial" animate="animate" variants={item}>
@@ -141,7 +143,7 @@ export default function ProgressPage() {
                         <div className="text-[10px] text-text-faint">{new Date(s.date).toLocaleDateString()}</div>
                       </div>
                     </div>
-                    <Badge variant={s.passed ? "green" : "red"}>{s.passed ? "PASS" : "FAIL"}</Badge>
+                    <Badge variant={s.passed ? "green" : "red"}>{s.passed ? t.passLabel : t.failLabel}</Badge>
                   </Card>
                 </motion.div>
               ))}
@@ -152,7 +154,7 @@ export default function ProgressPage() {
         {/* Bookmarks */}
         {bookmarkedQ.length > 0 && (
           <>
-            <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">Bookmarked ({bookmarkedQ.length})</p>
+            <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-3">{t.bookmarkedSection} ({bookmarkedQ.length})</p>
             <div className="space-y-2 mb-8">
               {bookmarkedQ.slice(0, 5).map(q => (
                 <Card key={q.id} className="py-3 px-4">
@@ -168,8 +170,8 @@ export default function ProgressPage() {
 
         {/* Reset */}
         <div className="pb-10 flex justify-end">
-          <Button variant="danger" onClick={() => { if (confirm("Reset all progress?")) resetProgress(); }}>
-            <RotateCcw size={13} /> Reset Progress
+          <Button variant="danger" onClick={() => { if (confirm(t.resetConfirm)) resetProgress(); }}>
+            <RotateCcw size={13} /> {t.resetProgress}
           </Button>
         </div>
       </div>

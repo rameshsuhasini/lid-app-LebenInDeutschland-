@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 
 type BadgeVariant = "default" | "accent" | "green" | "red";
 
 const styles: Record<BadgeVariant, string> = {
   default: "bg-raised border border-[rgba(17,17,17,0.10)] text-text-lo",
-  accent:  "bg-[rgba(184,134,11,0.12)] border border-[rgba(184,134,11,0.28)] text-accent",
+  accent:  "bg-[rgba(29,78,216,0.10)] border border-[rgba(29,78,216,0.22)] text-accent",
   green:   "bg-[rgba(29,139,60,0.10)] border border-[rgba(29,139,60,0.28)] text-c-green",
   red:     "bg-[rgba(192,57,43,0.10)] border border-[rgba(192,57,43,0.28)] text-c-red",
 };

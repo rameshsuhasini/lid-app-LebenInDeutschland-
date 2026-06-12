@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -57,8 +57,8 @@ export default function StatePicker() {
               className={cn(
                 "text-left px-3 py-3 rounded-2xl border transition-all duration-150 cursor-pointer",
                 selected?.code === bl.code
-                  ? "bg-[rgba(184,134,11,0.10)] border-[rgba(184,134,11,0.32)] shadow-accent"
-                  : "bg-white border-[rgba(17,17,17,0.10)] hover:border-[rgba(184,134,11,0.25)] hover:text-text-hi"
+                  ? "bg-[rgba(29,78,216,0.10)] border-[rgba(29,78,216,0.25)] shadow-accent"
+                  : "bg-white border-[rgba(17,17,17,0.10)] hover:border-[rgba(29,78,216,0.20)] hover:text-text-hi"
               )}
             >
               <span className={`font-mono text-[10px] font-bold block mb-0.5 ${selected?.code === bl.code ? "text-accent" : "text-text-faint"}`}>{bl.code}</span>

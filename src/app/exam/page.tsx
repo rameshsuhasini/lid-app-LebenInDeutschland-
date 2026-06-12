@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Timer, ChevronLeft, ChevronRight, Flag, CheckCircle2, XCircle, RotateCcw, Eye, Home } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { getT } from "@/lib/i18n";
 import questions from "@/data/questions.json";
 import { sampleExam, formatTime } from "@/lib/utils";
 import { EXAM_DURATION_SEC, EXAM_TOTAL, PASSING_SCORE } from "@/lib/constants";
@@ -19,13 +20,14 @@ type Phase = "setup" | "exam" | "results" | "review";
 
 export default function ExamPage() {
   const { selectedState, selectedStateCode, preferredLang, saveExamSession } = useStore();
+  const lang = preferredLang;
+  const t = getT(lang);
   const [phase, setPhase] = useState<Phase>("setup");
   const [examQ, setExamQ] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [current, setCurrent] = useState(0);
   const [timeLeft, setTimeLeft] = useState(EXAM_DURATION_SEC);
   const [session, setSession] = useState<ExamSession | null>(null);
-  const lang = preferredLang;
 
   const startExam = useCallback(() => {
     const q = sampleExam(allQ, selectedStateCode ?? "");
@@ -61,38 +63,38 @@ export default function ExamPage() {
     setSession(s);
     setPhase("results");
     if (passed) {
-      import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#D4AF37", "#B8860B", "#C0392B"] }));
+      import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#1D4ED8", "#1D4ED8", "#C0392B"] }));
     }
   }, [examQ, answers, selectedStateCode, selectedState, timeLeft, saveExamSession]);
 
   if (phase === "setup") return (
     <PageWrapper>
-      <div className="max-w-lg mx-auto px-4 pt-6">
+      <div className="px-4 sm:px-8 lg:px-16 pt-6">
         <div className="mb-8">
-          <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-2">Mock Exam</p>
-          <h1 className="font-syne font-extrabold text-4xl text-text-hi mb-2">Citizenship Test</h1>
-          <p className="text-text-lo text-sm">Official format &middot; 33 questions &middot; 60 minutes &middot; Pass with &ge;17 correct</p>
+          <p className="text-[11px] text-text-faint uppercase tracking-[0.14em] font-semibold mb-2">{t.examLabel}</p>
+          <h1 className="font-syne font-extrabold text-4xl text-text-hi mb-2">{t.examTitle}</h1>
+          <p className="text-text-lo text-sm">{t.examSubtitle}</p>
         </div>
         <Card accent className="mb-4 space-y-3">
           <div className="flex justify-between text-sm">
-            <span className="text-text-lo">General questions</span>
+            <span className="text-text-lo">{t.examGeneral}</span>
             <span className="text-text-hi font-semibold">30</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-text-lo">State questions ({selectedState ?? "-"})</span>
+            <span className="text-text-lo">{t.examStateQ} ({selectedState ?? "-"})</span>
             <span className="text-text-hi font-semibold">3</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-text-lo">Time limit</span>
+            <span className="text-text-lo">{t.examTimeLimit}</span>
             <span className="font-mono text-text-hi font-semibold">60:00</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-text-lo">Passing threshold</span>
+            <span className="text-text-lo">{t.examPassing}</span>
             <span className="text-text-hi font-semibold">{PASSING_SCORE}/{EXAM_TOTAL}</span>
           </div>
         </Card>
         <Button variant="primary" size="lg" glow className="w-full" onClick={startExam}>
-          Start Exam
+          {t.startExam}
         </Button>
       </div>
     </PageWrapper>
@@ -100,7 +102,7 @@ export default function ExamPage() {
 
   if (phase === "results" && session) return (
     <PageWrapper>
-      <div className="max-w-lg mx-auto px-4 pt-6">
+      <div className="px-4 sm:px-8 lg:px-16 pt-6">
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="text-center mb-8">
           <motion.div
             initial={{ scale: 0 }} animate={{ scale: 1 }}
@@ -109,16 +111,16 @@ export default function ExamPage() {
           >
             {session.passed ? <CheckCircle2 size={36} className="text-c-green" /> : <XCircle size={36} className="text-c-red" />}
           </motion.div>
-          <Badge variant={session.passed ? "green" : "red"} className="mb-3">{session.passed ? "PASSED" : "FAILED"}</Badge>
+          <Badge variant={session.passed ? "green" : "red"} className="mb-3">{session.passed ? t.passed : t.failed}</Badge>
           <div className="font-syne font-extrabold text-6xl text-text-hi">{session.score}<span className="text-text-faint text-3xl">/{EXAM_TOTAL}</span></div>
-          <p className="text-text-lo text-sm mt-2">{Math.round((session.score / EXAM_TOTAL) * 100)}% correct · {formatTime(session.durationSeconds)} elapsed</p>
+          <p className="text-text-lo text-sm mt-2">{Math.round((session.score / EXAM_TOTAL) * 100)}% {t.correctPct} · {formatTime(session.durationSeconds)} {t.elapsed}</p>
         </motion.div>
         <div className="flex gap-2">
           <Button variant="secondary" className="flex-1" onClick={() => setPhase("review")}>
-            <Eye size={14} /> Review
+            <Eye size={14} /> {t.review}
           </Button>
           <Button variant="secondary" className="flex-1" onClick={() => setPhase("setup")}>
-            <RotateCcw size={14} /> Again
+            <RotateCcw size={14} /> {t.again}
           </Button>
           <Link href="/">
             <Button variant="ghost"><Home size={14} /></Button>
@@ -130,10 +132,10 @@ export default function ExamPage() {
 
   if (phase === "review" && session) return (
     <PageWrapper>
-      <div className="max-w-2xl mx-auto px-4 pt-6">
+      <div className="px-4 sm:px-8 lg:px-16 pt-6">
         <div className="flex items-center gap-3 mb-6">
-          <Button variant="ghost" onClick={() => setPhase("results")}><ChevronLeft size={14} /> Back</Button>
-          <h2 className="font-syne font-bold text-lg text-text-hi">Answer Review</h2>
+          <Button variant="ghost" onClick={() => setPhase("results")}><ChevronLeft size={14} /> {t.back}</Button>
+          <h2 className="font-syne font-bold text-lg text-text-hi">{t.reviewTitle}</h2>
         </div>
         <div className="space-y-3">
           {examQ.map((q, i) => {
@@ -175,7 +177,7 @@ export default function ExamPage() {
       <div className="bg-dots fixed inset-0 pointer-events-none opacity-60" />
       {/* Top bar */}
       <div className="fixed top-0 left-0 right-0 z-[60] bg-[#FAFAF8]/90 backdrop-blur-xl border-b border-[rgba(17,17,17,0.08)]">
-        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+        <div className="px-4 sm:px-8 lg:px-16 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm">
             <span className="font-mono font-bold text-text-hi">{current + 1}</span>
             <span className="text-text-faint">/ {EXAM_TOTAL}</span>
@@ -190,7 +192,7 @@ export default function ExamPage() {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 pt-20 pb-32">
+      <div className="px-4 sm:px-8 lg:px-16 pt-20 pb-32">
         <AnimatePresence mode="wait">
           <motion.div key={current} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.22 }}>
             <Badge variant="default" className="mb-4">{q.category}</Badge>
@@ -212,20 +214,20 @@ export default function ExamPage() {
 
       {/* Bottom nav */}
       <div className="fixed bottom-0 left-0 right-0 z-[60] bg-[#FAFAF8]/90 backdrop-blur-xl border-t border-[rgba(17,17,17,0.08)] px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-3">
           <Button variant="ghost" disabled={current === 0} onClick={() => setCurrent(c => c - 1)}>
             <ChevronLeft size={15} />
           </Button>
           <div className="flex gap-1 flex-wrap justify-center max-w-xs">
             {examQ.map((_, i) => (
               <button key={i} onClick={() => setCurrent(i)}
-                className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold cursor-pointer transition-colors ${i === current ? "bg-[#111111] text-white" : answers[i] !== undefined ? "bg-raised text-accent border border-[rgba(184,134,11,0.25)]" : "bg-surface text-text-faint hover:bg-raised border border-[rgba(17,17,17,0.08)]"}`}
+                className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold cursor-pointer transition-colors ${i === current ? "bg-[#111111] text-white" : answers[i] !== undefined ? "bg-raised text-accent border border-[rgba(29,78,216,0.20)]" : "bg-surface text-text-faint hover:bg-raised border border-[rgba(17,17,17,0.08)]"}`}
               >{i + 1}</button>
             ))}
           </div>
           {current < EXAM_TOTAL - 1
             ? <Button variant="secondary" onClick={() => setCurrent(c => c + 1)}><ChevronRight size={15} /></Button>
-            : <Button variant="primary" onClick={submitExam}><Flag size={13} /> Submit</Button>
+            : <Button variant="primary" onClick={submitExam}><Flag size={13} /> {t.submit}</Button>
           }
         </div>
       </div>

@@ -20,14 +20,13 @@ export const BUNDESLAENDER: Bundesland[] = [
 ];
 
 export const CATEGORIES = [
-  "Recht und Staat",
-  "Politik",
-  "Wahlen",
+  "Demokratie",
   "Geschichte",
-  "Gesellschaft und Familie",
+  "Gesellschaft",
   "Grundrechte",
-  "Verfassungsgrundsätze",
-  "Zivilgesellschaft",
+  "Landeskunde",
+  "Politik",
+  "Wirtschaft",
 ];
 
 export const EXAM_TOTAL = 33;

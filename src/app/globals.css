@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg:        #FAFAF8;
-  --surface:   #FFFFFF;
-  --raised:    #F0EFEC;
+  --bg:        #FFFFFF;
+  --surface:   #F9FAFB;
+  --raised:    #F3F4F6;
   --border:    rgba(17, 17, 17, 0.10);
   --border-hi: rgba(17, 17, 17, 0.18);
 
-  /* Gold accent */
-  --accent:     #B8860B;
-  --accent-hi:  #D4AF37;
-  --accent-dim: rgba(184, 134, 11, 0.10);
-  --accent-glow:rgba(184, 134, 11, 0.18);
+  /* Electric blue accent */
+  --accent:     #1D4ED8;
+  --accent-hi:  #1D4ED8;
+  --accent-dim: rgba(29, 78, 216, 0.10);
+  --accent-glow:rgba(29, 78, 216, 0.15);
 
   /* German red */
   --brand: #C0392B;
@@ -81,13 +81,13 @@ body::before {
   background: var(--accent-dim);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(184, 134, 11, 0.28);
+  border: 1px solid rgba(29, 78, 216, 0.25);
 }
 
 /* ── Gradient text ── */
 .text-accent { color: var(--accent); }
 .text-gradient {
-  background: linear-gradient(135deg, var(--accent-hi) 0%, var(--accent) 60%);
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 60%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -115,7 +115,7 @@ body::before {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(184, 134, 11, 0.28);
+  border-color: rgba(29, 78, 216, 0.25);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
 }
 
@@ -176,6 +176,6 @@ body::before {
 .pulse { animation: pulse-ring 2.2s ease-out infinite; }
 @keyframes pulse-ring {
   0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
-  70%  { box-shadow: 0 0 0 10px rgba(184,134,11,0); }
-  100% { box-shadow: 0 0 0 0 rgba(184,134,11,0); }
+  70%  { box-shadow: 0 0 0 10px rgba(29,78,216,0); }
+  100% { box-shadow: 0 0 0 0 rgba(29,78,216,0); }
 }

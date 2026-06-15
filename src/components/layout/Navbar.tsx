@@ -70,7 +70,7 @@ export default function Navbar() {
       {open && (
         <div className="fixed inset-0 z-[100] bg-[#0E0E10]/85 backdrop-blur-xl flex items-center justify-center p-4" onClick={() => setOpen(false)}>
           <div className="bg-surface shadow-card-hover rounded-3xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto border border-[rgba(255,255,255,0.08)]" onClick={e => e.stopPropagation()}>
-            <h2 className="font-syne font-bold text-base text-text-hi mb-4">Change Bundesland</h2>
+            <h2 className="font-syne font-bold text-base text-text-hi mb-4">{t.changeBundesland}</h2>
             <div className="grid grid-cols-2 gap-2">
               {BUNDESLAENDER.map(bl => (
                 <button key={bl.code}

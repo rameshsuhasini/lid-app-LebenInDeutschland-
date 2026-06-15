@@ -116,6 +116,9 @@ const translations = {
     onboardingLabel: "Citizenship Test Preparation",
     onboardingSubtitle: "Select your Bundesland once. Your state questions will be included automatically everywhere.",
     startPreparing: "Start Preparing",
+
+    // Navbar state picker
+    changeBundesland: "Change Bundesland",
   },
 
   de: {
@@ -235,6 +238,9 @@ const translations = {
     onboardingLabel: "Einbürgerungstest Vorbereitung",
     onboardingSubtitle: "Wähle dein Bundesland einmalig. Deine Landesfragen werden überall automatisch eingebunden.",
     startPreparing: "Vorbereitung starten",
+
+    // Navbar state picker
+    changeBundesland: "Bundesland wechseln",
   },
 } as const;
 

@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "LID Prep — Leben in Deutschland Exam",
   description: "Prepare for the German naturalization test with practice questions, mock exams, and flashcards.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export const viewport: Viewport = {

@@ -4,10 +4,12 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { BUNDESLAENDER } from "@/lib/constants";
 import { useStore } from "@/lib/store";
+import { getT } from "@/lib/i18n";
 import Button from "@/components/ui/Button";
 
 export default function StatePicker() {
-  const { completeOnboarding } = useStore();
+  const { completeOnboarding, preferredLang } = useStore();
+  const t = getT(preferredLang);
   const [selected, setSelected] = useState<{ code: string; name: string } | null>(null);
 
   return (
@@ -31,12 +33,12 @@ export default function StatePicker() {
             L
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <p className="text-text-faint text-xs uppercase tracking-[0.2em] mb-3 font-semibold">Citizenship Test Preparation</p>
+            <p className="text-text-faint text-xs uppercase tracking-[0.2em] mb-3 font-semibold">{t.onboardingLabel}</p>
             <h1 className="font-syne font-extrabold text-4xl sm:text-5xl text-text-hi leading-tight mb-3">
               Leben in<br /><span className="text-gradient">Deutschland</span>
             </h1>
             <p className="text-text-lo text-sm max-w-xs mx-auto leading-relaxed">
-              Select your Bundesland once. Your state questions will be included automatically everywhere.
+              {t.onboardingSubtitle}
             </p>
           </motion.div>
         </div>
@@ -73,7 +75,7 @@ export default function StatePicker() {
             onClick={() => selected && completeOnboarding(selected.code, selected.name)}
             className="min-w-[200px]"
           >
-            Start Preparing <ArrowRight size={16} />
+            {t.startPreparing} <ArrowRight size={16} />
           </Button>
           {selected && (
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-text-faint text-xs">

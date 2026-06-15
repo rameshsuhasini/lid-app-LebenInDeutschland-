@@ -1,31 +1,31 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg:        #FFFFFF;
-  --surface:   #F9FAFB;
-  --raised:    #F3F4F6;
-  --border:    rgba(17, 17, 17, 0.10);
-  --border-hi: rgba(17, 17, 17, 0.18);
+  --bg:        #0E0E10;
+  --surface:   #161618;
+  --raised:    #1E1E20;
+  --border:    rgba(255, 255, 255, 0.07);
+  --border-hi: rgba(255, 255, 255, 0.13);
 
-  /* Electric blue accent */
-  --accent:     #1D4ED8;
-  --accent-hi:  #1D4ED8;
-  --accent-dim: rgba(29, 78, 216, 0.10);
-  --accent-glow:rgba(29, 78, 216, 0.15);
+  /* Deep navy accent */
+  --accent:     #1E3FA8;
+  --accent-hi:  #2952C8;
+  --accent-dim: rgba(30, 63, 168, 0.14);
+  --accent-glow:rgba(30, 63, 168, 0.32);
 
   /* German red */
   --brand: #C0392B;
 
-  --text-hi:    #111111;
-  --text-lo:    #555555;
-  --text-faint: #999999;
+  --text-hi:    #F0F0F0;
+  --text-lo:    #888888;
+  --text-faint: #555555;
 
-  --red:   #C0392B;
-  --green: #1D8B3C;
+  --red:   #E05252;
+  --green: #34D058;
 }
 
 /* ── Base ── */
@@ -44,9 +44,9 @@ body {
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #F0EFEC; }
-::-webkit-scrollbar-thumb { background: rgba(17,17,17,0.30); border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(17,17,17,0.50); }
+::-webkit-scrollbar-track { background: #1E1E20; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.28); }
 
 ::selection { background: var(--accent-dim); color: var(--text-hi); }
 :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
@@ -58,7 +58,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.015;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 180px 180px;
@@ -66,28 +66,28 @@ body::before {
 
 /* ── Subtle dot grid ── */
 .bg-dots {
-  background-image: radial-gradient(circle, rgba(17,17,17,0.04) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
-/* ── Glass — frosted white ── */
+/* ── Glass — frosted dark ── */
 .glass {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  background: rgba(14, 14, 16, 0.92);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
   border: 1px solid var(--border);
 }
 .glass-accent {
   background: var(--accent-dim);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(29, 78, 216, 0.25);
+  border: 1px solid rgba(30, 63, 168, 0.30);
 }
 
 /* ── Gradient text ── */
 .text-accent { color: var(--accent); }
 .text-gradient {
-  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 60%);
+  background: linear-gradient(135deg, #7AB4FF 0%, #2952C8 60%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -99,7 +99,7 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.22) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
   background-size: 200% 100%;
   animation: shimmer 2.8s infinite;
 }
@@ -115,16 +115,16 @@ body::before {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(29, 78, 216, 0.25);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+  border-color: rgba(30, 63, 168, 0.40);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.50);
 }
 
-/* ── German flag stripe (real flag colors) ── */
+/* ── German flag stripe (adapted for dark background) ── */
 .flag-stripe {
   height: 3px;
   background: linear-gradient(90deg,
     transparent 0%,
-    #111111 6%, #111111 33%,
+    #444444 6%, #444444 33%,
     #C0392B 33%, #C0392B 66%,
     #D4AF37 66%, #D4AF37 94%,
     transparent 100%
@@ -134,12 +134,12 @@ body::before {
 
 /* ── Answer states ── */
 .option-correct {
-  background: rgba(29,139,60,0.08) !important;
+  background: rgba(52,208,88,0.10) !important;
   border-color: var(--green) !important;
   color: var(--green) !important;
 }
 .option-wrong {
-  background: rgba(192,57,43,0.08) !important;
+  background: rgba(224,82,82,0.10) !important;
   border-color: var(--red) !important;
   color: var(--red) !important;
 }
@@ -176,6 +176,6 @@ body::before {
 .pulse { animation: pulse-ring 2.2s ease-out infinite; }
 @keyframes pulse-ring {
   0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
-  70%  { box-shadow: 0 0 0 10px rgba(29,78,216,0); }
-  100% { box-shadow: 0 0 0 0 rgba(29,78,216,0); }
+  70%  { box-shadow: 0 0 0 10px rgba(30,63,168,0); }
+  100% { box-shadow: 0 0 0 0 rgba(30,63,168,0); }
 }

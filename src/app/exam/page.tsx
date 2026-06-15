@@ -63,7 +63,7 @@ export default function ExamPage() {
     setSession(s);
     setPhase("results");
     if (passed) {
-      import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#1D4ED8", "#1D4ED8", "#C0392B"] }));
+      import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#1E3FA8", "#2952C8", "#C0392B"] }));
     }
   }, [examQ, answers, selectedStateCode, selectedState, timeLeft, saveExamSession]);
 
@@ -150,13 +150,13 @@ export default function ExamPage() {
                 </div>
                 <div className="space-y-1.5">
                   {(lang === "de" ? q.options_de : q.options_en).map((opt, oi) => (
-                    <div key={oi} className={`text-xs px-3 py-1.5 rounded-xl border ${oi === correct ? "option-correct" : oi === given && !isRight ? "option-wrong" : "border-[rgba(17,17,17,0.08)] text-text-faint"}`}>
+                    <div key={oi} className={`text-xs px-3 py-1.5 rounded-xl border ${oi === correct ? "option-correct" : oi === given && !isRight ? "option-wrong" : "border-[rgba(255,255,255,0.07)] text-text-faint"}`}>
                       {opt}
                     </div>
                   ))}
                 </div>
                 {q.explanation_de && (
-                  <p className="text-xs text-text-faint mt-3 pt-3 border-t border-[rgba(17,17,17,0.07)] leading-relaxed">
+                  <p className="text-xs text-text-faint mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)] leading-relaxed">
                     {lang === "de" ? q.explanation_de : q.explanation_en}
                   </p>
                 )}
@@ -176,7 +176,7 @@ export default function ExamPage() {
     <div className="min-h-screen bg-bg relative">
       <div className="bg-dots fixed inset-0 pointer-events-none opacity-60" />
       {/* Top bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-[#FAFAF8]/90 backdrop-blur-xl border-b border-[rgba(17,17,17,0.08)]">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-[#0E0E10]/92 backdrop-blur-xl border-b border-[rgba(255,255,255,0.07)]">
         <div className="px-4 sm:px-8 lg:px-16 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm">
             <span className="font-mono font-bold text-text-hi">{current + 1}</span>
@@ -202,7 +202,7 @@ export default function ExamPage() {
                 <motion.button key={oi}
                   initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: oi * 0.05 }}
                   onClick={() => answers[current] === undefined && setAnswers(a => ({ ...a, [current]: oi }))}
-                  className={`w-full text-left px-4 py-3.5 rounded-2xl border text-sm cursor-pointer transition-all duration-150 leading-snug ${answers[current] === oi ? "option-selected" : "bg-white border-[rgba(17,17,17,0.10)] hover:border-[rgba(184,134,11,0.3)] hover:text-text-hi text-text-lo"}`}
+                  className={`w-full text-left px-4 py-3.5 rounded-2xl border text-sm cursor-pointer transition-all duration-150 leading-snug ${answers[current] === oi ? "option-selected" : "bg-surface border-[rgba(255,255,255,0.08)] hover:border-[rgba(30,63,168,0.35)] hover:text-text-hi text-text-lo"}`}
                 >
                   <span className="font-mono text-[10px] text-text-faint mr-2">{String.fromCharCode(65 + oi)}</span>{opt}
                 </motion.button>
@@ -213,7 +213,7 @@ export default function ExamPage() {
       </div>
 
       {/* Bottom nav */}
-      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-[#FAFAF8]/90 backdrop-blur-xl border-t border-[rgba(17,17,17,0.08)] px-4 py-3">
+      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-[#0E0E10]/92 backdrop-blur-xl border-t border-[rgba(255,255,255,0.07)] px-4 py-3">
         <div className="flex items-center justify-between gap-3">
           <Button variant="ghost" disabled={current === 0} onClick={() => setCurrent(c => c - 1)}>
             <ChevronLeft size={15} />
@@ -221,7 +221,7 @@ export default function ExamPage() {
           <div className="flex gap-1 flex-wrap justify-center max-w-xs">
             {examQ.map((_, i) => (
               <button key={i} onClick={() => setCurrent(i)}
-                className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold cursor-pointer transition-colors ${i === current ? "bg-[#111111] text-white" : answers[i] !== undefined ? "bg-raised text-accent border border-[rgba(29,78,216,0.20)]" : "bg-surface text-text-faint hover:bg-raised border border-[rgba(17,17,17,0.08)]"}`}
+                className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold cursor-pointer transition-colors ${i === current ? "bg-accent text-white" : answers[i] !== undefined ? "bg-raised text-accent border border-[rgba(30,63,168,0.25)]" : "bg-surface text-text-faint hover:bg-raised border border-[rgba(255,255,255,0.07)]"}`}
               >{i + 1}</button>
             ))}
           </div>

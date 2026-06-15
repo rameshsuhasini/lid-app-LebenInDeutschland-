@@ -52,7 +52,7 @@ function SetupLayout({
                 <div className="text-xs text-text-faint mt-0.5">{selectedStateCode ?? t.noStateSelected}</div>
               </div>
             </div>
-            <div className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${includeState ? "bg-accent" : "bg-raised border border-[rgba(17,17,17,0.15)]"}`}>
+            <div className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${includeState ? "bg-accent" : "bg-raised border border-[rgba(255,255,255,0.12)]"}`}>
               <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${includeState ? "translate-x-5" : "translate-x-0.5"}`} />
             </div>
           </button>
@@ -76,8 +76,8 @@ function SetupLayout({
                 className={cn(
                   "text-xs px-3 py-2 rounded-xl border cursor-pointer transition-colors font-medium",
                   selectedCats.includes(c)
-                    ? "bg-[rgba(29,78,216,0.10)] border-[rgba(29,78,216,0.22)] text-accent"
-                    : "bg-white border-[rgba(17,17,17,0.10)] text-text-lo hover:text-text-hi hover:border-[rgba(29,78,216,0.18)]"
+                    ? "bg-[rgba(30,63,168,0.14)] border-[rgba(30,63,168,0.28)] text-accent"
+                    : "bg-surface border-[rgba(255,255,255,0.08)] text-text-lo hover:text-text-hi hover:border-[rgba(30,63,168,0.28)]"
                 )}
               >{c}</button>
             ))}
@@ -89,7 +89,7 @@ function SetupLayout({
         <Card accent className="text-center py-5">
           <div className="font-mono font-bold text-5xl text-accent mb-1">{filtered.length}</div>
           <div className="text-xs text-text-faint mb-4">{t.questionsInDeck}</div>
-          <div className="border-t border-[rgba(17,17,17,0.07)] pt-4 space-y-2.5">
+          <div className="border-t border-[rgba(255,255,255,0.06)] pt-4 space-y-2.5">
             <div className="flex justify-between text-xs">
               <span className="text-text-faint">{t.general}</span>
               <span className="font-semibold text-text-hi">{filtered.filter(q => !q.state).length}</span>
@@ -209,11 +209,11 @@ function PracticeMode() {
 
           <div className="space-y-2.5 mb-4">
             {(lang === "de" ? q.options_de : q.options_en).map((opt, oi) => {
-              let cls = "bg-white border-[rgba(17,17,17,0.10)] hover:border-[rgba(29,78,216,0.25)] hover:text-text-hi text-text-lo";
+              let cls = "bg-surface border-[rgba(255,255,255,0.08)] hover:border-[rgba(30,63,168,0.30)] hover:text-text-hi text-text-lo";
               if (answered) {
                 if (oi === q.correctIndex) cls = "option-correct";
                 else if (oi === chosen) cls = "option-wrong";
-                else cls = "border-[rgba(17,17,17,0.06)] text-text-faint bg-raised";
+                else cls = "border-[rgba(255,255,255,0.05)] text-text-faint bg-raised";
               }
               return (
                 <motion.button key={oi}
@@ -235,7 +235,7 @@ function PracticeMode() {
                   {chosen === q.correctIndex ? t.answerCorrect : t.answerWrong}
                 </div>
                 {q.explanation_de && (
-                  <p className="text-xs text-text-lo leading-relaxed bg-raised px-4 py-3 rounded-2xl border border-[rgba(17,17,17,0.07)]">
+                  <p className="text-xs text-text-lo leading-relaxed bg-raised px-4 py-3 rounded-2xl border border-[rgba(255,255,255,0.06)]">
                     {lang === "de" ? q.explanation_de : q.explanation_en}
                   </p>
                 )}
@@ -297,8 +297,8 @@ function FlashcardsMode() {
           <button key={n} onClick={() => setDeckSize(n)}
             className={cn("flex-1 py-2 rounded-xl border text-sm font-semibold cursor-pointer transition-colors",
               deckSize === n
-                ? "bg-[rgba(29,78,216,0.10)] border-[rgba(29,78,216,0.22)] text-accent"
-                : "bg-white border-[rgba(17,17,17,0.10)] text-text-lo hover:text-text-hi"
+                ? "bg-[rgba(30,63,168,0.14)] border-[rgba(30,63,168,0.28)] text-accent"
+                : "bg-surface border-[rgba(255,255,255,0.08)] text-text-lo hover:text-text-hi"
             )}
           >{n === "all" ? (lang === "de" ? "Alle" : "All") : n}</button>
         ))}
@@ -355,7 +355,7 @@ function FlashcardsMode() {
             className="absolute inset-0"
             style={{ backfaceVisibility: "hidden", transformPerspective: 1200 }}
           >
-            <div className={`w-full h-full rounded-3xl p-7 flex flex-col border ${flipped ? "bg-[rgba(29,78,216,0.06)] border-[rgba(29,78,216,0.22)]" : "bg-white border-[rgba(17,17,17,0.10)] shadow-card"}`}>
+            <div className={`w-full h-full rounded-3xl p-7 flex flex-col border ${flipped ? "bg-[rgba(30,63,168,0.12)] border-[rgba(30,63,168,0.28)]" : "bg-surface border-[rgba(255,255,255,0.08)] shadow-card"}`}>
               <div className="flex items-center justify-between mb-4">
                 <Badge variant={flipped ? "accent" : "default"}>{flipped ? t.faceBack : t.faceFront}</Badge>
                 <span className="text-xs text-text-faint">{q.category}</span>
@@ -434,25 +434,25 @@ function BrowseMode() {
         <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-faint" />
         <input value={search} onChange={e => { setSearch(e.target.value); resetPage(); }}
           placeholder={t.searchPlaceholder}
-          className="w-full bg-white border border-[rgba(17,17,17,0.10)] text-text-hi placeholder:text-text-faint rounded-2xl pl-9 pr-4 py-2.5 text-sm outline-none focus:border-[rgba(29,78,216,0.28)] transition-colors shadow-sm"
+          className="w-full bg-surface border border-[rgba(255,255,255,0.08)] text-text-hi placeholder:text-text-faint rounded-2xl pl-9 pr-4 py-2.5 text-sm outline-none focus:border-[rgba(30,63,168,0.35)] transition-colors"
         />
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
         <select value={cat} onChange={e => { setCat(e.target.value); resetPage(); }}
-          className="bg-white border border-[rgba(17,17,17,0.10)] text-text-lo rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[rgba(29,78,216,0.28)] cursor-pointer">
+          className="bg-surface border border-[rgba(255,255,255,0.08)] text-text-lo rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[rgba(30,63,168,0.35)] cursor-pointer">
           <option value="">{t.allCategories}</option>
           {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
         <select value={stateFilter} onChange={e => { setStateFilter(e.target.value); resetPage(); }}
-          className="bg-white border border-[rgba(17,17,17,0.10)] text-text-lo rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[rgba(29,78,216,0.28)] cursor-pointer">
+          className="bg-surface border border-[rgba(255,255,255,0.08)] text-text-lo rounded-xl px-3 py-1.5 text-xs outline-none focus:border-[rgba(30,63,168,0.35)] cursor-pointer">
           <option value="">{t.allRegions}</option>
           <option value="__general__">{t.generalOnly}</option>
           {BUNDESLAENDER.map(b => <option key={b.code} value={b.code}>{b.name}</option>)}
         </select>
         <button onClick={() => { setBookmarkedOnly(b => !b); resetPage(); }}
           className={cn("flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border cursor-pointer transition-colors",
-            bookmarkedOnly ? "bg-[rgba(29,78,216,0.10)] border-[rgba(29,78,216,0.22)] text-accent" : "bg-white border-[rgba(17,17,17,0.10)] text-text-lo hover:text-text-hi")}>
+            bookmarkedOnly ? "bg-[rgba(30,63,168,0.14)] border-[rgba(30,63,168,0.28)] text-accent" : "bg-surface border-[rgba(255,255,255,0.08)] text-text-lo hover:text-text-hi")}>
           <Bookmark size={11} /> {t.bookmarked}
         </button>
         {(search || cat || stateFilter || bookmarkedOnly) && (
@@ -502,14 +502,14 @@ function BrowseMode() {
               <AnimatePresence>
                 {isOpen && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <div className="border-t border-[rgba(17,17,17,0.07)] pt-3 mt-3 space-y-1.5">
+                    <div className="border-t border-[rgba(255,255,255,0.06)] pt-3 mt-3 space-y-1.5">
                       {(lang === "de" ? q.options_de : q.options_en).map((opt, oi) => (
-                        <div key={oi} className={`text-xs px-3 py-2 rounded-xl border ${oi === q.correctIndex ? "option-correct" : "border-[rgba(17,17,17,0.07)] text-text-faint"}`}>
+                        <div key={oi} className={`text-xs px-3 py-2 rounded-xl border ${oi === q.correctIndex ? "option-correct" : "border-[rgba(255,255,255,0.06)] text-text-faint"}`}>
                           <span className="font-mono mr-2">{String.fromCharCode(65 + oi)}</span>{opt}
                         </div>
                       ))}
                       {q.explanation_de && (
-                        <p className="text-xs text-text-faint pt-2 leading-relaxed border-t border-[rgba(17,17,17,0.07)] mt-2">
+                        <p className="text-xs text-text-faint pt-2 leading-relaxed border-t border-[rgba(255,255,255,0.06)] mt-2">
                           {lang === "de" ? q.explanation_de : q.explanation_en}
                         </p>
                       )}
@@ -560,14 +560,14 @@ function StudyContent() {
           <p className="text-text-lo text-sm">{t.studySubtitle}</p>
         </div>
 
-        <div className="flex gap-2 mb-8 pb-4 border-b border-[rgba(17,17,17,0.07)]">
+        <div className="flex gap-2 mb-8 pb-4 border-b border-[rgba(255,255,255,0.06)]">
           {MODES.map(({ id, label, Icon }) => (
             <button key={id} onClick={() => setMode(id)}
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-semibold cursor-pointer transition-colors",
                 mode === id
-                  ? "bg-[rgba(29,78,216,0.10)] border-[rgba(29,78,216,0.22)] text-accent"
-                  : "bg-white border-[rgba(17,17,17,0.10)] text-text-lo hover:text-text-hi hover:border-[rgba(29,78,216,0.18)]"
+                  ? "bg-[rgba(30,63,168,0.14)] border-[rgba(30,63,168,0.28)] text-accent"
+                  : "bg-surface border-[rgba(255,255,255,0.08)] text-text-lo hover:text-text-hi hover:border-[rgba(30,63,168,0.28)]"
               )}
             >
               <Icon size={14} />

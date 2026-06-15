@@ -39,7 +39,7 @@ export default function ProgressPage() {
     };
   }).sort((a, b) => (a.pct ?? 101) - (b.pct ?? 101)), [progress]);
 
-  const radialData = [{ value: readiness, fill: "#1D4ED8" }];
+  const radialData = [{ value: readiness, fill: "#1E3FA8" }];
 
   const bookmarkedQ = allQ.filter(q => bookmarks.includes(q.id));
 
@@ -65,7 +65,7 @@ export default function ProgressPage() {
             <div className="relative w-28 h-28 mb-3">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart innerRadius="70%" outerRadius="100%" startAngle={220} endAngle={-40} data={radialData} barSize={8}>
-                  <RadialBar background={{ fill: "rgba(17,17,17,0.06)" }} dataKey="value" cornerRadius={8} />
+                  <RadialBar background={{ fill: "rgba(255,255,255,0.06)" }} dataKey="value" cornerRadius={8} />
                 </RadialBarChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -118,7 +118,7 @@ export default function ProgressPage() {
                 <div className="h-1 bg-raised rounded-full overflow-hidden">
                   <motion.div
                     className="h-full rounded-full"
-                    style={{ background: c.pct === null ? "transparent" : c.pct >= 70 ? "#1D8B3C" : c.pct >= 40 ? "#1D4ED8" : "#C0392B" }}
+                    style={{ background: c.pct === null ? "transparent" : c.pct >= 70 ? "#1D8B3C" : c.pct >= 40 ? "#1E3FA8" : "#C0392B" }}
                     animate={{ width: catInView && c.pct !== null ? `${c.pct}%` : "0%" }}
                     transition={{ delay: i * 0.04, duration: 0.5 }}
                   />

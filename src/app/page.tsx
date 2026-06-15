@@ -80,7 +80,7 @@ export default function Dashboard() {
               <Link href={href} className="h-full block">
                 <Card hover accent={accent} className="flex flex-col gap-3 h-full group">
                   <div className="flex items-center justify-between">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105 ${accent ? "bg-[rgba(29,78,216,0.10)] text-accent" : "bg-raised text-text-lo"}`}>
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105 ${accent ? "bg-[rgba(30,63,168,0.14)] text-accent" : "bg-raised text-text-lo"}`}>
                       <Icon size={18} />
                     </div>
                     {accent && <Badge variant="accent">Start here</Badge>}
@@ -89,7 +89,7 @@ export default function Dashboard() {
                     <div className="font-syne font-bold text-sm text-text-hi mb-0.5">{label}</div>
                     <div className="text-xs text-text-lo leading-relaxed">{desc}</div>
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] text-text-faint mt-auto pt-2 border-t border-[rgba(17,17,17,0.06)] group-hover:text-accent transition-colors">
+                  <div className="flex items-center gap-1 text-[11px] text-text-faint mt-auto pt-2 border-t border-[rgba(255,255,255,0.05)] group-hover:text-accent transition-colors">
                     {t.openLink} <ChevronRight size={11} className="transition-transform duration-150 group-hover:translate-x-0.5" />
                   </div>
                 </Card>

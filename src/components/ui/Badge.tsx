@@ -3,8 +3,8 @@
 type BadgeVariant = "default" | "accent" | "green" | "red";
 
 const styles: Record<BadgeVariant, string> = {
-  default: "bg-raised border border-[rgba(17,17,17,0.10)] text-text-lo",
-  accent:  "bg-[rgba(29,78,216,0.10)] border border-[rgba(29,78,216,0.22)] text-accent",
+  default: "bg-raised border border-[rgba(255,255,255,0.07)] text-text-lo",
+  accent:  "bg-[rgba(30,63,168,0.14)] border border-[rgba(30,63,168,0.28)] text-accent",
   green:   "bg-[rgba(29,139,60,0.10)] border border-[rgba(29,139,60,0.28)] text-c-green",
   red:     "bg-[rgba(192,57,43,0.10)] border border-[rgba(192,57,43,0.28)] text-c-red",
 };

@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { getT } from "@/lib/i18n";
-import { filterQuestions, cn } from "@/lib/utils";
+import { filterQuestions, weightedShuffle, cn } from "@/lib/utils";
 import { CATEGORIES, BUNDESLAENDER } from "@/lib/constants";
 import questions from "@/data/questions.json";
 import PageWrapper from "@/components/layout/PageWrapper";
@@ -115,7 +115,7 @@ function SetupLayout({
 
 // ── Practice Mode ──────────────────────────────────────────────────────────
 function PracticeMode() {
-  const { selectedState, selectedStateCode, preferredLang, recordAnswer, toggleBookmark, bookmarks } = useStore();
+  const { selectedState, selectedStateCode, preferredLang, progress, recordAnswer, toggleBookmark, bookmarks } = useStore();
   const lang = preferredLang;
   const t = getT(lang);
 
@@ -135,7 +135,7 @@ function PracticeMode() {
   }), [includeState, selectedCats, selectedStateCode]);
 
   const start = () => {
-    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+    const shuffled = weightedShuffle(filtered, progress);
     setDeck(shuffled); setIdx(0); setChosen(null);
     setSessionCorrect(0); setSessionWrong(0);
     setPhase("practice");
@@ -253,7 +253,7 @@ function PracticeMode() {
 
 // ── Flashcards Mode ────────────────────────────────────────────────────────
 function FlashcardsMode() {
-  const { selectedState, selectedStateCode, preferredLang } = useStore();
+  const { selectedState, selectedStateCode, preferredLang, progress } = useStore();
   const lang = preferredLang;
   const t = getT(lang);
 
@@ -274,7 +274,7 @@ function FlashcardsMode() {
   }), [includeState, selectedCats, selectedStateCode]);
 
   const start = () => {
-    let pool = [...filtered].sort(() => Math.random() - 0.5);
+    let pool = weightedShuffle(filtered, progress);
     if (deckSize !== "all") pool = pool.slice(0, deckSize);
     setDeck(pool); setIdx(0); setFlipped(false); setKnown(0); setUnknown(0);
     setPhase("cards");

@@ -1,6 +1,24 @@
 import type { Question } from "./types";
 import { EXAM_GENERAL, EXAM_STATE } from "./constants";
 
+// Weighted shuffle — wrong questions surface first, correct ones last.
+// Uses Efraimidis-Spirakis: key = rand^(1/weight), sort descending.
+const WEIGHTS: Record<string, number> = { wrong: 4, skipped: 2, correct: 1 };
+
+export function weightedShuffle(
+  questions: Question[],
+  progress: Record<number, "correct" | "wrong" | "skipped">
+): Question[] {
+  return [...questions]
+    .map((q) => {
+      const status = progress[q.id];
+      const w = status ? WEIGHTS[status] : 3; // unseen questions get weight 3
+      return { q, key: Math.random() ** (1 / w) };
+    })
+    .sort((a, b) => b.key - a.key)
+    .map(({ q }) => q);
+}
+
 export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {

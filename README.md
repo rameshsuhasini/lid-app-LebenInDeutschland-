@@ -2,6 +2,8 @@
 
 A premium exam preparation app for Germany's naturalization test (*Einbürgerungstest*). Study all 460 official BAMF questions, simulate timed exams, track your progress, and arrive at the test ready.
 
+**Live app:** https://lid-app-leben-in-deutschland-mgopvybtk-rameshsuhasinis-projects.vercel.app/
+
 ---
 
 ## What Is the Einbürgerungstest?

@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useMemo, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
+import { RadialBarChart, RadialBar } from "recharts";
 import { useStore } from "@/lib/store";
 import { getT } from "@/lib/i18n";
 import { CATEGORIES } from "@/lib/constants";
@@ -63,11 +63,9 @@ export default function ProgressPage() {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <Card accent className="flex flex-col items-center justify-center py-6">
             <div className="relative w-28 h-28 mb-3">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadialBarChart innerRadius="70%" outerRadius="100%" startAngle={220} endAngle={-40} data={radialData} barSize={8}>
-                  <RadialBar background={{ fill: "rgba(255,255,255,0.06)" }} dataKey="value" cornerRadius={8} />
-                </RadialBarChart>
-              </ResponsiveContainer>
+              <RadialBarChart width={112} height={112} innerRadius="70%" outerRadius="100%" startAngle={220} endAngle={-40} data={radialData} barSize={8}>
+                <RadialBar background={{ fill: "rgba(255,255,255,0.06)" }} dataKey="value" cornerRadius={8} />
+              </RadialBarChart>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-syne font-extrabold text-2xl text-accent">{readiness}%</span>
                 <span className="text-[10px] text-text-faint">{t.ready}</span>

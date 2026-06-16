@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, Suspense } from "react";
+import React, { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/lib/store";
@@ -129,7 +129,8 @@ function PracticeMode() {
   const [sessionWrong, setSessionWrong] = useState(0);
 
   const filtered = useMemo(() => filterQuestions(allQ, {
-    stateCode: includeState ? selectedStateCode ?? undefined : undefined,
+    stateCode: (includeState && selectedStateCode) ? selectedStateCode : undefined,
+    includeState: (!includeState || !selectedStateCode) ? false : undefined,
     categories: selectedCats.length ? selectedCats : undefined,
     includeGeneral: true,
   }), [includeState, selectedCats, selectedStateCode]);
@@ -268,7 +269,8 @@ function FlashcardsMode() {
   const [unknown, setUnknown] = useState(0);
 
   const filtered = useMemo(() => filterQuestions(allQ, {
-    stateCode: includeState ? selectedStateCode ?? undefined : undefined,
+    stateCode: (includeState && selectedStateCode) ? selectedStateCode : undefined,
+    includeState: (!includeState || !selectedStateCode) ? false : undefined,
     categories: selectedCats.length ? selectedCats : undefined,
     includeGeneral: true,
   }), [includeState, selectedCats, selectedStateCode]);
@@ -300,7 +302,7 @@ function FlashcardsMode() {
                 ? "bg-[rgba(30,63,168,0.14)] border-[rgba(30,63,168,0.28)] text-accent"
                 : "bg-surface border-[rgba(255,255,255,0.08)] text-text-lo hover:text-text-hi"
             )}
-          >{n === "all" ? (lang === "de" ? "Alle" : "All") : n}</button>
+          >{n === "all" ? t.allCards : n}</button>
         ))}
       </div>
     </div>
@@ -540,10 +542,15 @@ function StudyContent() {
   const t = getT(preferredLang);
 
   const raw = searchParams.get("mode") as StudyMode | null;
-  const valid = ["practice", "flashcards", "browse"] as const;
+  const valid: StudyMode[] = ["practice", "flashcards", "browse"];
   const [mode, setMode] = useState<StudyMode>(
     raw && valid.includes(raw) ? raw : "practice"
   );
+
+  useEffect(() => {
+    if (raw && valid.includes(raw) && raw !== mode) setMode(raw);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [raw]);
 
   const MODES = [
     { id: "practice"   as const, label: t.tabPractice,   Icon: Layers },

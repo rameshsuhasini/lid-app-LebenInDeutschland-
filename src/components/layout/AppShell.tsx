@@ -1,10 +1,16 @@
 "use client";
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import StatePicker from "@/components/onboarding/StatePicker";
 import Navbar from "@/components/layout/Navbar";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const hasCompletedOnboarding = useStore((s) => s.hasCompletedOnboarding);
+  const preferredLang = useStore((s) => s.preferredLang);
+
+  useEffect(() => {
+    document.documentElement.lang = preferredLang;
+  }, [preferredLang]);
 
   if (!hasCompletedOnboarding) return <StatePicker />;
 

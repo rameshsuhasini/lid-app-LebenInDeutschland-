@@ -12,7 +12,7 @@ export function weightedShuffle(
   return [...questions]
     .map((q) => {
       const status = progress[q.id];
-      const w = status ? WEIGHTS[status] : 3; // unseen questions get weight 3
+      const w = (status ? WEIGHTS[status] : undefined) ?? 3; // unseen = 3
       return { q, key: Math.random() ** (1 / w) };
     })
     .sort((a, b) => b.key - a.key)

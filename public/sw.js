@@ -4,11 +4,12 @@ self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    )
+    caches.keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      )
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
@@ -20,19 +21,21 @@ self.addEventListener("fetch", (event) => {
   // Immutable Next.js static chunks — cache first forever
   if (url.pathname.startsWith("/_next/static/")) {
     event.respondWith(
-      caches.match(request).then(
-        (cached) =>
-          cached ||
-          fetch(request).then((res) => {
-            caches.open(CACHE).then((c) => c.put(request, res.clone()));
-            return res;
-          })
+      caches.open(CACHE).then((cache) =>
+        cache.match(request).then(
+          (cached) =>
+            cached ||
+            fetch(request).then((res) => {
+              cache.put(request, res.clone());
+              return res;
+            })
+        )
       )
     );
     return;
   }
 
-  // HTML navigation — network first, fall back to cache for offline
+  // HTML navigation — network first, fall back to nearest cached page
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
@@ -40,7 +43,11 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE).then((c) => c.put(request, res.clone()));
           return res;
         })
-        .catch(() => caches.match(request))
+        .catch(() =>
+          caches.match(request).then(
+            (r) => r || caches.match("/").then((root) => root || new Response("Offline", { status: 503 }))
+          )
+        )
     );
     return;
   }

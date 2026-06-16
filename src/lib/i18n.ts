@@ -42,6 +42,7 @@ const translations = {
 
     // Flashcards setup
     deckSize: "Deck size",
+    allCards: "All",
     startFlashcards: "Start Flashcards",
 
     // Practice session
@@ -164,6 +165,7 @@ const translations = {
 
     // Flashcards setup
     deckSize: "Stapelgröße",
+    allCards: "Alle",
     startFlashcards: "Karteikarten starten",
 
     // Practice session

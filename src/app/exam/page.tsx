@@ -38,13 +38,6 @@ export default function ExamPage() {
     setPhase("exam");
   }, [selectedStateCode]);
 
-  useEffect(() => {
-    if (phase !== "exam") return;
-    if (timeLeft <= 0) { submitExam(); return; }
-    const t = setInterval(() => setTimeLeft(s => s - 1), 1000);
-    return () => clearInterval(t);
-  });
-
   const submitExam = useCallback(() => {
     let score = 0;
     examQ.forEach((q, i) => { if (answers[i] === q.correctIndex) score++; });
@@ -66,6 +59,16 @@ export default function ExamPage() {
       import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#1E3FA8", "#2952C8", "#C0392B"] }));
     }
   }, [examQ, answers, selectedStateCode, selectedState, timeLeft, saveExamSession]);
+
+  useEffect(() => {
+    if (phase !== "exam") return;
+    const id = setInterval(() => setTimeLeft(s => s - 1), 1000);
+    return () => clearInterval(id);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase === "exam" && timeLeft <= 0) submitExam();
+  }, [phase, timeLeft, submitExam]);
 
   if (phase === "setup") return (
     <PageWrapper>
@@ -93,7 +96,10 @@ export default function ExamPage() {
             <span className="text-text-hi font-semibold">{PASSING_SCORE}/{EXAM_TOTAL}</span>
           </div>
         </Card>
-        <Button variant="primary" size="lg" glow className="w-full" onClick={startExam}>
+        {!selectedStateCode && (
+          <p className="text-xs text-c-red mb-3 text-center">{t.noStateSelected} — {t.changeBundesland}</p>
+        )}
+        <Button variant="primary" size="lg" glow className="w-full" disabled={!selectedStateCode} onClick={startExam}>
           {t.startExam}
         </Button>
       </div>

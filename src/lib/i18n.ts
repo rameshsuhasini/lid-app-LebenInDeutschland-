@@ -119,7 +119,7 @@ const translations = {
     startPreparing: "Start Preparing",
 
     // Navbar state picker
-    changeBundesland: "Change Bundesland",
+    changeBundesland: "Change State",
   },
 
   de: {

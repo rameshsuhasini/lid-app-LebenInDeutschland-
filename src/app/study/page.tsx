@@ -40,7 +40,10 @@ function SetupLayout({
     <div className="grid lg:grid-cols-[1fr_260px] gap-6 items-start">
       <div className="space-y-5">
         <Card>
-          <button onClick={() => setIncludeState(!includeState)} className="flex items-center justify-between w-full cursor-pointer">
+          <button
+            onClick={() => selectedStateCode && setIncludeState(!includeState)}
+            className={`flex items-center justify-between w-full ${selectedStateCode ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-raised flex items-center justify-center shrink-0">
                 <BookOpen size={14} className="text-text-lo" />
@@ -49,11 +52,13 @@ function SetupLayout({
                 <div className="text-sm font-semibold text-text-hi">
                   {t.includeStateQ.replace("{state}", selectedState ?? t.noStateSelected)}
                 </div>
-                <div className="text-xs text-text-faint mt-0.5">{selectedStateCode ?? t.noStateSelected}</div>
+                <div className="text-xs text-text-faint mt-0.5">
+                  {selectedStateCode ? selectedStateCode : t.noStateSelected}
+                </div>
               </div>
             </div>
-            <div className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${includeState ? "bg-accent" : "bg-raised border border-[rgba(255,255,255,0.12)]"}`}>
-              <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${includeState ? "translate-x-5" : "translate-x-0.5"}`} />
+            <div className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${(includeState && !!selectedStateCode) ? "bg-accent" : "bg-raised border border-[rgba(255,255,255,0.12)]"}`}>
+              <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${(includeState && !!selectedStateCode) ? "translate-x-5" : "translate-x-0.5"}`} />
             </div>
           </button>
         </Card>

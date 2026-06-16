@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Timer, ChevronLeft, ChevronRight, Flag, CheckCircle2, XCircle, RotateCcw, Eye, Home } from "lucide-react";
 import { useStore } from "@/lib/store";
@@ -29,14 +29,22 @@ export default function ExamPage() {
   const [timeLeft, setTimeLeft] = useState(EXAM_DURATION_SEC);
   const [session, setSession] = useState<ExamSession | null>(null);
 
+  const timeLeftRef = useRef(EXAM_DURATION_SEC);
+  const examStateCodeRef = useRef("");
+  const examStateNameRef = useRef("");
+
   const startExam = useCallback(() => {
-    const q = sampleExam(allQ, selectedStateCode ?? "");
+    const code = selectedStateCode ?? "";
+    examStateCodeRef.current = code;
+    examStateNameRef.current = selectedState ?? "";
+    timeLeftRef.current = EXAM_DURATION_SEC;
+    const q = sampleExam(allQ, code);
     setExamQ(q);
     setAnswers({});
     setCurrent(0);
     setTimeLeft(EXAM_DURATION_SEC);
     setPhase("exam");
-  }, [selectedStateCode]);
+  }, [selectedStateCode, selectedState]);
 
   const submitExam = useCallback(() => {
     let score = 0;
@@ -45,12 +53,12 @@ export default function ExamPage() {
     const s: ExamSession = {
       id: Date.now().toString(),
       date: new Date().toISOString(),
-      stateCode: selectedStateCode ?? "",
-      stateName: selectedState ?? "",
+      stateCode: examStateCodeRef.current,
+      stateName: examStateNameRef.current,
       answers: Object.fromEntries(Object.entries(answers).map(([k, v]) => [examQ[+k].id, v])),
       questions: examQ.map(q => q.id),
       score, passed,
-      durationSeconds: EXAM_DURATION_SEC - timeLeft,
+      durationSeconds: EXAM_DURATION_SEC - timeLeftRef.current,
     };
     saveExamSession(s);
     setSession(s);
@@ -58,11 +66,17 @@ export default function ExamPage() {
     if (passed) {
       import("canvas-confetti").then(m => m.default({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ["#1E3FA8", "#2952C8", "#C0392B"] }));
     }
-  }, [examQ, answers, selectedStateCode, selectedState, timeLeft, saveExamSession]);
+  }, [examQ, answers, saveExamSession]);
 
   useEffect(() => {
     if (phase !== "exam") return;
-    const id = setInterval(() => setTimeLeft(s => s - 1), 1000);
+    const id = setInterval(() => {
+      setTimeLeft(s => {
+        const next = Math.max(0, s - 1);
+        timeLeftRef.current = next;
+        return next;
+      });
+    }, 1000);
     return () => clearInterval(id);
   }, [phase]);
 
